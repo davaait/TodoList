@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
 import './App.css';
 import {ToDoList} from './ToDoList';
+import {v1} from 'uuid';
+
 
 export type TaskType = {
-    id: number
+    id: string
     title: string
     isDone: boolean
 }
@@ -15,18 +17,26 @@ function App() {
     //BLL:
     const [filter, setFilter] = useState<FilterValueType>("all")
     const [tasks, setTasks] = useState<Array<TaskType>>([
-        {id: 1, title: "HTML", isDone: true},
-        {id: 2, title: "CSS", isDone: true},
-        {id: 3, title: "JS/TS", isDone: false},
+        {id: v1(), title: "HTML", isDone: true},
+        {id: v1(), title: "CSS", isDone: true},
+        {id: v1(), title: "JS/TS", isDone: false},
     ]);
 
     const changeFilter = (filter: FilterValueType) => setFilter(filter);
     const todoListTitle_1: string = "What to learn";
 
-    const removeTask = (id: number) => {
+    const removeTask = (id: string) => {
         const filteredTasks: Array<TaskType> = tasks.filter(t => t.id !== id)
         setTasks(filteredTasks)
         console.log()
+    }
+
+    const addTask = (title: string) => {
+        setTasks([{
+            id: v1(),
+            title,
+            isDone: false
+        }, ...tasks])
     }
 
     /*    let tasksForRender = tasks;
@@ -58,6 +68,7 @@ function App() {
                 tasks={getTasksForRender()}
                 removeTask={removeTask}
                 changeFilter={changeFilter}
+                addTask={addTask}
             />
         </div>
     );
