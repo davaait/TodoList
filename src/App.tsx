@@ -3,7 +3,6 @@ import './App.css';
 import {ToDoList} from './ToDoList';
 import {v1} from 'uuid';
 
-
 export type TaskType = {
     id: string
     title: string
@@ -28,7 +27,6 @@ function App() {
     const removeTask = (id: string) => {
         const filteredTasks: Array<TaskType> = tasks.filter(t => t.id !== id)
         setTasks(filteredTasks)
-        console.log()
     }
 
     const addTask = (title: string) => {
@@ -39,13 +37,9 @@ function App() {
         }, ...tasks])
     }
 
-    /*    let tasksForRender = tasks;
-            if (filter === "active") {
-                tasksForRender = tasks.filter(t => !t.isDone)
-            }
-        if (filter === "completed") {
-            tasksForRender = tasks.filter(t => t.isDone)
-        }*/
+    const changeTaskStatus = (id: string, isDone: boolean) => {
+        setTasks(tasks.map(t => t.id === id ? {...t, isDone} : t))
+    }
 
     const getTasksForRender = () => {
         switch (filter) {
@@ -58,7 +52,6 @@ function App() {
         }
     }
 
-
     //UI:
     return (
         <div className="App">
@@ -69,6 +62,7 @@ function App() {
                 removeTask={removeTask}
                 changeFilter={changeFilter}
                 addTask={addTask}
+                changeTaskStatus={changeTaskStatus}
             />
         </div>
     );
